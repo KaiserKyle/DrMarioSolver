@@ -38,17 +38,45 @@ namespace DrMarioSolver
 
     class Virusses
     {
-        public List<string> Map;
+        private List<string> map;
+        private char[,] mapVector;
         public Dictionary<ItemColor, uint> VirusCounts;
         public uint TotalVirusCount;
 
+        public List<string> Map
+        {
+            get
+            {
+                return map;
+            }
+        }
+
+        public char[,] MapVector
+        {
+            get
+            {
+                return mapVector;
+            }
+        }
+
         public Virusses()
         {
-            Map = new List<string>();
+            map = new List<string>();
+            mapVector = new char[16,8];
             VirusCounts = new Dictionary<ItemColor, uint>();
             VirusCounts.Add(ItemColor.Red, 0);
             VirusCounts.Add(ItemColor.Blue, 0);
             VirusCounts.Add(ItemColor.Yellow, 0);
+        }
+
+        public void AddLineToMap(string line)
+        {
+            map.Add(line);
+            int index = map.Count - 1;
+            for(int j = 0; j < 8; j++)
+            {
+                mapVector[index, j] = line[j];
+            }
         }
     }
 
@@ -85,7 +113,7 @@ namespace DrMarioSolver
             Console.WriteLine("+---  ---+");
             foreach (string str in Virusses.Map)
             {
-                Console.WriteLine("|" + str + "|");
+                Console.WriteLine("|" + str.Replace('0', ' ') + "|");
             }
             Console.WriteLine("+--------+");
             Console.WriteLine("Blue Virus Count: " + Virusses.VirusCounts[ItemColor.Blue]);
@@ -146,7 +174,7 @@ namespace DrMarioSolver
                         current += thisLine[i];
                         if ((i + 1) % 8 == 0)
                         {
-                            currentLevel.Virusses.Map.Add(current);
+                            currentLevel.Virusses.AddLineToMap(current);
                             current = "";
                         }
                         if (thisLine[i] == 'R')

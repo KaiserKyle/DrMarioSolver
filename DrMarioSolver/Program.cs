@@ -11,11 +11,18 @@ namespace DrMarioSolver
     {
         static void Main(string[] args)
         {
-            LogParser log = new LogParser(@"C:\Users\kaiserkyle\Documents\drmario\60\drmario-60.log");
+            LogParser log = new LogParser(@"C:\Users\kyle\Source\Repos\DrMarioSolver\DrMarioSolver\drmario-60.log");
             log.Parse();
 
             Level level = log.GetLevel(0);
             level.ToConsole();
+
+            Console.ReadLine();
+
+            LevelSolver solve = new LevelSolver(level);
+            solve.FindAvailableMoves();
+
+            Console.ReadLine();
         }
     }
 }
